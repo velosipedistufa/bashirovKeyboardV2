@@ -1,0 +1,149 @@
+
+points:
+  zones:
+    matrix:
+      columns:
+        outer:
+          rows:
+            tech.skip: true
+        pinky:
+          key.stagger: 5
+          rows:
+            tech.skip: true
+        ring:
+          key.stagger: 30
+          key.spread: 23
+          rows:
+            frow.skip: true
+        middle:
+          key.stagger: 8
+          rows:
+            frow.skip: true
+            tech.skip: true
+        index:
+          key.stagger: -8
+          rows:
+            frow.skip: true
+            tech.skip: true
+        inner:
+          key.stagger: -6
+          rows:
+            frow.skip: true
+            tech.skip: true
+        thumb:
+          key.spread: 23
+          key.splay: -18
+          key.stagger: -7
+          key.skip: true
+          rows:
+            bottom.skip: false
+      rows:
+        tech:
+        bottom:
+        home:
+        top:
+        num:
+        frow:
+    thumbfan:
+      anchor:
+        ref: matrix_inner_bottom
+        shift: [-24, -14]
+      columns:
+        outer:
+        near:
+          key.spread: 21.25
+          key.splay: -18
+          key.origin: [-22.75, -9]
+        home:
+          key.spread: 20.25
+          key.splay: -2
+          key.origin: [-2.75, -9]
+          
+  rotate: -2
+
+  #mirror:
+  #  ref: matrix_thumb_home
+  #  distance: 50
+
+outlines:
+  left:
+  - where: true
+    what: rectangle
+    size: [cx + 9, cy + 8]
+    fillet: 0
+  - what: rectangle
+    where:
+      ref: matrix_inner_home
+      shift: [14, 16]
+    size: [63, 70]
+    fillet: 1
+  - what: rectangle
+    where:
+      ref: matrix_outer_bottom
+      shift: [51, 20]
+    size: [130, 71]
+  - what: rectangle
+    where:
+      ref: matrix_outer_frow
+      shift: [38, -1]
+    size: [104, 40]
+    fillet: 1
+  - what: rectangle
+    where:
+      ref: matrix_inner_bottom
+      shift: [20, -26]
+      rotate: -20
+    size: [32, 30]
+pcbs:
+  left:
+    outlines:
+      main:
+        outline: left
+    footprints:
+      keyswitches:
+        where: true
+        what: choc
+        params:
+          reverse: true
+          hotswap: true
+          from: "{{col_net}}"
+          to: "{{colrow}}"
+        adjust:
+          rotate: 180
+      nice_nano:
+        what: promicro
+        where:
+          ref: matrix_inner_num
+          shift: [27, -35] #x y 
+          rotate: -90
+      diode_main:
+        what: diode
+        where: /^matrix_(?!(?:sixth_top|sixth_home|third_home|first_num|first_bottom|fourth_top|fourth_mod)).*/
+        params:
+          from: "{{colrow}}"
+          to: "{{row_net}}"
+        adjust:
+          shift: [-0, 6]
+          rotate: 0
+
+      slider_accu:
+        what: slider
+        params:
+            side: B
+            from: pos
+            to: RAW
+        where:
+          ref: matrix_inner_num
+          shift: [17, -2]
+          rotate: 0
+      
+      charging:
+        what: jstph
+        where:
+          ref: matrix_inner_num
+          shift: [15, -10]
+          rotate: 90
+        params:
+            side: B
+            pos: VCC
+            neg: GND
